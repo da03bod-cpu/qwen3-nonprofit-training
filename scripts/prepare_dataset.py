@@ -1,104 +1,150 @@
+cd /workspace/qwen3-nonprofit-training
+
+cat > scripts/prepare_dataset.py <<'PY'
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OCR = ROOT / 'data' / 'ocr'
-LABELS = ROOT / 'data' / 'labels'
-OUT = ROOT / 'data'
+OCR_DIR = ROOT / "data" / "ocr"
+LABEL_DIR = ROOT / "data" / "labels"
+OUT_DIR = ROOT / "data" / "prepared"
 
-SYSTEM = '''أنت نموذج متخصص في استخراج البرامج والمشاريع والمبادرات والأنشطة من التقارير السنوية للجمعيات غير الربحية.
-اقرأ نص OCR كما هو، حتى لو احتوى على أخطاء OCR بسيطة. استخرج البرامج والمشاريع والأنشطة المذكورة فعليًا فقط.
-أعد JSON فقط وفق المخطط المطلوب، ولا تضف شرحًا خارج JSON.
-صحح أخطاء OCR الواضحة فقط عندما يكون التصحيح مؤكدًا من السياق، ولا تخترع معلومات غير موجودة.
-'''
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Keep duplicate reports in the same split to avoid leakage.
 SPLITS = {
-    'train': ['G_1', 'G_10', 'G_2', 'G_3', 'G_4', 'G_5', 'G_6'],
-    'validation': ['G_7', 'G_8'],
-    'test': ['G_9'],
+    "train": ["G_1", "G_2", "G_3", "G_4", "G_5", "G_6", "G_10"],
+    "validation": ["G_7", "G_8"],
+    "test": ["G_9"],
 }
 
-def ocr_to_text(obj):
-    # OCR_Output.zip contains both the cleaned format used by our earlier
-    # OCR Code node and the raw PaddleOCR RunPod format. Support both.
-    if isinstance(obj, list):
-        if not obj:
-            return ''
-        obj = obj[0]
+MAX_CHARS = 45000
 
-    if not isinstance(obj, dict):
-        return ''
 
-    # Cleaned OCR format: {pages:[{page, blocks:[{order,label,text}], text:...}]}
-    if isinstance(obj.get('full_text'), str) and obj.get('full_text').strip():
-        return obj['full_text'].strip()
+def load_ocr(name):
+    data = json.load(open(OCR_DIR / f"{name}.json", encoding="utf-8"))
 
-    result = obj.get('output', {}).get('result', obj.get('result', {}))
-    pages = result.get('pages', []) if isinstance(result, dict) else []
-    page_parts = []
-    for page in pages:
-        pno = page.get('page')
-        res = page.get('data', {}).get('res', {})
-        blocks = res.get('parsing_res_list', []) or []
-        ordered = []
+    root = data[0] if isinstance(data, list) else data
+
+    pages = []
+
+    for page in root.get("pages", []):
+        page_num = page.get("page")
+        blocks = page.get("blocks", [])
+
+        texts = []
+
         for block in blocks:
-            text = block.get('block_content')
-            if not isinstance(text, str) or not text.strip():
+            text = block.get("text", "")
+            if not isinstance(text, str):
                 continue
-            order = block.get('block_order')
-            order_key = order if isinstance(order, (int, float)) else 10**9
-            ordered.append((order_key, text.strip()))
-        ordered.sort(key=lambda x: x[0])
-        page_text = '\n'.join(text for _, text in ordered)
-        if page_text:
-            page_parts.append(f'===== PAGE {pno} =====\n{page_text}')
-    return '\n\n'.join(page_parts)
 
-def normalize_label(obj):
-    if isinstance(obj, list):
-        programs = obj
-    elif isinstance(obj, dict):
-        programs = (
-            obj.get('programs_and_projects')
-            or obj.get('programs')
-            or obj.get('projects')
-            or []
-        )
-    else:
-        programs = []
-    return {'programs': programs}
+            text = " ".join(text.split()).strip()
 
-def make_sample(name):
-    ocr_path = OCR / f'{name}.json'
-    label_path = LABELS / f'{name}.json'
-    if not ocr_path.exists():
-        raise FileNotFoundError(f'Missing OCR file: {ocr_path}')
-    if not label_path.exists():
-        raise FileNotFoundError(f'Missing label file: {label_path}')
+            if text:
+                texts.append(text)
 
-    ocr = json.loads(ocr_path.read_text(encoding='utf-8'))
-    if isinstance(ocr, dict) and ocr.get('_PLACEHOLDER'):
-        raise RuntimeError(f'Missing completed PaddleOCR JSON: {ocr_path}')
+        if texts:
+            pages.append({
+                "page": page_num,
+                "text": "\n".join(texts)
+            })
 
-    label = normalize_label(json.loads(label_path.read_text(encoding='utf-8')))
-    text = ocr_to_text(ocr)
-    if not text:
-        raise RuntimeError(f'No OCR text found in {ocr_path}')
+    return pages
 
-    target = json.dumps(label, ensure_ascii=False, separators=(',', ':'))
+
+def load_labels(name):
+    data = json.load(open(LABEL_DIR / f"{name}.json", encoding="utf-8"))
+
+    if isinstance(data, list):
+        return data
+
+    if isinstance(data, dict):
+        return data.get("programs_and_projects", [])
+
+    return []
+
+
+def make_output(name, text, labels):
     return {
-        'id': name,
-        'messages': [
-            {'role': 'system', 'content': SYSTEM},
-            {'role': 'user', 'content': text},
-            {'role': 'assistant', 'content': target},
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "أنت نموذج متخصص في استخراج البرامج والمشاريع من التقارير السنوية "
+                    "للجمعيات غير الربحية. استخرج البيانات المطلوبة من النص وأخرج JSON فقط."
+                )
+            },
+            {
+                "role": "user",
+                "content": text
+            },
+            {
+                "role": "assistant",
+                "content": json.dumps(
+                    labels,
+                    ensure_ascii=False,
+                    separators=(",", ":")
+                )
+            }
         ],
+        "source": name
     }
 
-if __name__ == '__main__':
-    for split, names in SPLITS.items():
-        samples = [make_sample(name) for name in names]
-        path = OUT / f'{split}.json'
-        path.write_text(json.dumps(samples, ensure_ascii=False, indent=2), encoding='utf-8')
-        print(f'{split}: {len(samples)} samples -> {path}')
+
+for split, names in SPLITS.items():
+
+    examples = []
+
+    for name in names:
+
+        pages = load_ocr(name)
+        labels = load_labels(name)
+
+        # ---------------------------------------------------------
+        # نبدأ بتجميع الصفحات في chunks متوسطة الحجم.
+        # لا نقطع الصفحة نفسها.
+        # ---------------------------------------------------------
+
+        current = []
+        current_len = 0
+
+        for page in pages:
+
+            page_text = f"===== PAGE {page['page']} =====\n{page['text']}"
+            page_len = len(page_text)
+
+            if current and current_len + page_len > MAX_CHARS:
+                text = "\n\n".join(current)
+
+                examples.append(
+                    make_output(name, text, labels)
+                )
+
+                current = []
+                current_len = 0
+
+            current.append(page_text)
+            current_len += page_len
+
+        if current:
+            text = "\n\n".join(current)
+
+            examples.append(
+                make_output(name, text, labels)
+            )
+
+    output = OUT_DIR / f"{split}.jsonl"
+
+    with open(output, "w", encoding="utf-8") as f:
+        for example in examples:
+            f.write(
+                json.dumps(
+                    example,
+                    ensure_ascii=False
+                ) + "\n"
+            )
+
+    print(f"{split}: {len(examples)} examples")
+    print(f"saved: {output}")
+
+PY
