@@ -1,4 +1,5 @@
 import argparse
+import os
 import yaml
 import torch
 from datasets import load_dataset
@@ -14,6 +15,10 @@ def main():
 
     with open(args.config, encoding='utf-8') as f:
         cfg = yaml.safe_load(f)
+
+    # Allow RunPod Serverless to redirect checkpoints to the persistent network volume.
+    if os.environ.get('OUTPUT_DIR'):
+        cfg['output_dir'] = os.environ['OUTPUT_DIR']
 
     dataset = load_dataset(
         'json',

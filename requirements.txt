@@ -1,8 +1,8 @@
-torch>=2.6
-transformers>=4.51
-trl>=0.18
-peft>=0.15
-bitsandbytes>=0.45
-accelerate>=1.6
+runpod>=1.7.6
+transformers>=4.51,<5
+trl>=0.18,<0.20
+peft>=0.15,<0.18
+bitsandbytes>=0.45,<1
+accelerate>=1.6,<2
+datasets>=3.0,<5
 pyyaml>=6.0
-datasets>=3.0
