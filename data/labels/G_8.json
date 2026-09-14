@@ -1,0 +1,138 @@
+{
+  "association_name": "جمعية إجلال لمساندة كبار السن بالأفلاج",
+  "year": 2025,
+  "programs_and_projects": [
+    {
+      "type": "program",
+      "name": "المشاركة في برنامج كشتة بالشراكة مع بلدية الأفلاج",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "المتقاعدون وكبار السن",
+      "delivery_method": "فعاليات مجتمعية في المنتزه الربيعي تشمل جلسات اجتماعية وضيافة وحلقة قرآن وأنشطة رياضية، بمعدل أربعة أيام أسبوعيًا لمدة 24 يومًا.",
+      "notes": "وردت كمشاركة مجتمعية ضمن أنشطة الجمعية، وليس كبرنامج مستقل في إحصائية 61 برنامجًا. التنفيذ بالشراكة مع بلدية الأفلاج."
+    },
+    {
+      "type": "program",
+      "name": "المشاركة في مبادرة صم بصحة مع مستشفى الأفلاج",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "المشاركون وأهالي المحافظة",
+      "delivery_method": "تقديم خدمات قياس المؤشرات الحيوية للمشاركين، ومنها قياس ضغط الدم ونسبة السكر في الدم.",
+      "notes": "مشاركة مجتمعية مع مستشفى الأفلاج."
+    },
+    {
+      "type": "program",
+      "name": "المشاركة في تفعيل اليوم العالمي للعلاج الطبيعي مع مستشفى الأفلاج",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "كبار السن",
+      "delivery_method": "المشاركة في فعاليات برنامج اليوم العالمي للعلاج الطبيعي بهدف تعزيز الوعي الصحي وتشجيع كبار السن على تبني أنماط حياة صحية.",
+      "notes": "أقيمت الفعالية في مستشفى الأفلاج."
+    },
+    {
+      "type": "program",
+      "name": "المشاركة في مبادرة حقهم التقدير مع جمعية وقار",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "كبار السن",
+      "delivery_method": "المشاركة في مبادرة تهدف إلى دعم احتياجات كبار السن وتعزيز تقديرهم.",
+      "notes": "مشاركة مجتمعية مع جمعية وقار."
+    },
+    {
+      "type": "program",
+      "name": "المشاركة في إطلاق مبادرة إشراك السكان",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "سكان محافظة الأفلاج",
+      "delivery_method": "المشاركة في إطلاق مبادرة إشراك السكان في اختيار الشكل الجمالي لمجسم دوار تقاطع طريق الملك عبدالعزيز مع شارع إشبيلية.",
+      "notes": "بحضور وكيل محافظ محافظة الأفلاج."
+    },
+    {
+      "type": "program",
+      "name": "مسيرة رياضية بمناسبة اليوم الوطني 95",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "المجتمع",
+      "delivery_method": "إقامة مسيرة رياضية بمناسبة اليوم الوطني السعودي الخامس والتسعين بالشراكة مع جمعية الحركة الرياضية بالأفلاج.",
+      "notes": "وردت كمشاركة مجتمعية."
+    },
+    {
+      "type": "program",
+      "name": "البرنامج الرياضي والإفطار الصحي لكبار السن والمتقاعدين",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "كبار السن والمتقاعدون",
+      "delivery_method": "برنامج رياضي وإفطار صحي بإشراف ومتابعة الجمعية، بمعدل ثلاثة أيام في الأسبوع.",
+      "notes": "ورد في التقرير ضمن برامج الجمعية."
+    },
+    {
+      "type": "program",
+      "name": "البرنامج الرمضاني في ديوانية إجلال بالأفلاج",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "كبار السن والمتقاعدون",
+      "delivery_method": "برنامج رياضي وثقافي لمدة ساعتين يوميًا من الساعة العاشرة إلى الثانية عشرة مساء، ويشمل برنامجًا رياضيًا للكبار وحلقة قرآن وخدمات إلكترونية.",
+      "notes": "أقيم في استراحة جمعية إجلال الواقعة بشارع الغروب بالأفلاج."
+    },
+    {
+      "type": "program",
+      "name": "برنامج قدوات",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "طلاب التعليم العام",
+      "delivery_method": "برنامج توعوي تثقيفي ينقل المعرفة والخبرة الحياتية من كبار السن إلى طلاب التعليم العام، عبر لقاءات وتجارب ملهمة.",
+      "notes": "نُفذ في القسم النسائي والثانوي، وفي القسم الرجالي من خلال استضافة أحد المعلمين السابقين بالمعهد العلمي بالأفلاج."
+    },
+    {
+      "type": "program",
+      "name": "برنامج ديوانية إجلال",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "كبار السن والمتقاعدون",
+      "delivery_method": "برنامج أسبوعي يقام يوم الأحد في مقر الجمعية، ويتضمن برامج ثقافية واجتماعية وحلقات قرآنية وبرنامجًا رياضيًا بإشراف اللجنة الرياضية وبرامج صحية توعوية، إضافة إلى خدمات إلكترونية مجانية لمساعدة المستفيدين في إنجاز معاملاتهم.",
+      "notes": "التقرير يذكر ضمن إحصائيات 2025 وجود 61 برنامجًا و3 مبادرات، مع 1,976 مستفيدًا من البرامج و99 مستفيدًا من المبادرات، لكنه لا يخصص هذا العدد لديوانية إجلال وحدها."
+    },
+    {
+      "type": "program",
+      "name": "برنامج لمة نجدية",
+      "year": 2025,
+      "description": null,
+      "beneficiaries_count": null,
+      "budget": null,
+      "beneficiary_value": null,
+      "target_audience": "المجتمع وكبار السن",
+      "delivery_method": "لقاءات وفعاليات تراثية وتفاعلية ومسابقات ورسائل زاجل، نُفذت بالشراكة مع مركز التنمية الاجتماعية بالأفلاج وجمعية إجلال.",
+      "notes": "ورد البرنامج في عدة صفحات من التقرير كفعاليات متتابعة، ولم يذكر إجماليًا موحدًا للمستفيدين للبرنامج كله."
+    }
+  ]
+}
